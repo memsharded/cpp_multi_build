@@ -17,7 +17,7 @@ def chdir(newdir):
         os.chdir(current)
 
 shutil.rmtree("build", ignore_errors=True)
-with chdir("build/64"):
+"""with chdir("build/64"):
     # The CMake generated solution will only have x64 as Configuration, not x86
     run('cmake ../../src -G "Visual Studio 15 Win64"')
     run('cmake --build . --config Release')
@@ -31,5 +31,11 @@ with chdir("build/32"):
     run('cmake --build . --config Release')
     run("Release\\app.exe")
     run('cmake --build . --config Debug')
-    run("Debug\\app.exe")
+    run("Debug\\app.exe")"""
 
+shutil.rmtree("vs/Debug", ignore_errors=True)
+shutil.rmtree("vs/Release", ignore_errors=True)
+shutil.rmtree("vs/x64", ignore_errors=True)
+shutil.rmtree("vs/HelloWorld/Debug", ignore_errors=True)
+shutil.rmtree("vs/HelloWorld/Release", ignore_errors=True)
+shutil.rmtree("vs/HelloWorld/x64", ignore_errors=True)
