@@ -36,3 +36,10 @@ vs/.vs
 vs/Debug
 vs/Release
 vs/x64
+vs/HelloWorld/Debug
+vs/HelloWorld/Release
+vs/HelloWorld/x64
+vs/HelloLib/Debug
+vs/HelloLib/Release
+vs/HelloLib/x64
+
