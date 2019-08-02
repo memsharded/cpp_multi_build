@@ -20,20 +20,24 @@ def chdir(newdir):
 shutil.rmtree("build", ignore_errors=True)
 
 for shared in ("ON", "OFF"):
-    """with chdir("build/mingw_debug"):
-        run('cmake ../../src -G "MinGW Makefiles" & cmake ../../src -G "MinGW Makefiles" '
-            '-DCMAKE_BUILD_TYPE=Debug -DBUILD_SHARED_LIBS=%s' % shared)
-        run('cmake --build .')
-        run("app.exe")
+    # Single-config Debug/Release gcc
+    # Ninja
+    for generator in ("MinGW Makefiles", "Ninja"):
+        for config in ("Debug", "Release"):
+            with chdir("build/%s_%s" % (generator.lower().split()[0], config.lower())):
+                # The CMake generated solution will only have x64 as Configuration, not x86
+                try:
+                    run('cmake ../../src -G "%s" -DCMAKE_BUILD_TYPE=%s -DBUILD_SHARED_LIBS=%s'
+                        % (generator, config, shared))
+                except:
+                    run('cmake ../../src -G "%s" -DCMAKE_BUILD_TYPE=%s -DBUILD_SHARED_LIBS=%s'
+                        % (generator, config, shared))
+                run('cmake --build .')
+                run("app.exe")
 
-    with chdir("build/mingw_release"):
-        run('cmake ../../src -G "MinGW Makefiles" & cmake ../../src -G "MinGW Makefiles" '
-            '-DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=%s' % shared)
-        run('cmake --build .')
-        run("app.exe")"""
 
-
-    with chdir("build/64"):
+    # Multi-config Debug/Release VS
+    """with chdir("build/64"):
         # The CMake generated solution will only have x64 as Configuration, not x86
         run('cmake ../../src -G "Visual Studio 15 Win64" -DBUILD_SHARED_LIBS=%s' % shared)
         run('cmake --build . --config Release')
@@ -47,7 +51,8 @@ for shared in ("ON", "OFF"):
         run('cmake --build . --config Release')
         run("Release\\app.exe")
         run('cmake --build . --config Debug')
-        run("Debug\\app.exe")
+        run("Debug\\app.exe")"""
+
 
 """shutil.rmtree("vs/Debug", ignore_errors=True)
 shutil.rmtree("vs/Release", ignore_errors=True)
